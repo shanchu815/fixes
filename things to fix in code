@@ -1,0 +1,26 @@
+General review:
+- If you aren't already, it might be time to learn a full IDE (I shill for :shill2: and PyCharm).  There are a number of PEP-8 style violations, for instance, that an IDE would warn you about.
+- get_random_word
+- - pass does nothing.  It's commonly used as a placeholder before you finish implementing.  Delete.
+- - random.randint(0, len(lst) - 1) - use random.choice instead.
+- Top-level variables (more specifically mutable globals) are to be discouraged.  The variables in lines 13-18 should be scoped to a function.  Execute your code as a script by calling that function, for preference behind a if __name__ == "__main__" guard.
+- hangman_status, as something that shouldn't be changed, should be named HANGMAN_STATUS by convention.  It also has a trailing \n in the last element that none of the others seem to have.
+- Something I didn't noticed, but PyCharm did: your \ in your handman strings are being parsed as escape characters.  \| and \  can't be read the way, say, \n is.
+- player_guess
+- - input takes a prompt as input.  Use that over explicitly printing.
+- - string.ascii_lowercase is a convenience constant for "abcdefghi..."
+- My lunch is ready, so I'm going to call it here, but might circle back in an hour or three.
+
+Continued review:
+- game_display
+- - Parameter word_lst is unused.
+- - for i in range(num_of_blanks) might read better iterating over for i, char in enumerate(myst_word).  The loop might read better if you were building a list of characters and then, after the loop, do a ''.join(blanks_and_revealed).  That would allow direct assignment blanks_and_revealed[i] = myst_word[i] rather than the jump around with the [:i] + [i] + [i+1:].
+- restart_game
+- - while next_round.isalpha() == False -- isalpha() already returns a bool.  Just say while not next_round.isalpha().
+- - You don't appear to honor a "no".  It always returns True.  I assume this is for current iteration, but don't forget to make that actually do stuff.
+- play_hangan
+- - The loop structure is a bit meandering.  Multiple breaks, with different loops broken, makes logic hard to follow.  One break exists a loop, only to immediately return from the parent function.  In-loop break and returns aren't inherently bad, but they should raise an eyebrow.
+- - If an individual game of hangman existed as a function (which I encouraged in the above comment about getting those global mutables into a function), then this method would just handle (1) start a game, (2) ask if you want to play another, (3) start another or exit.
+- - Line 137: for i in range(len(myst_word)) -- As above, prefer for i, char in enumerate(myst_word).
+- - Consider extracting the "game is over you win" condition to a separate function.  It would clean up some the break issue mentioned above.
+- - You actual problem (which I didn't notice at a glance, but jumps out immediately if you walk through execution using a debugger, cough cough shill :shill2: PyCharm) is your if winner: ... else: logic.  That's saying that unless you win and the game is over, your guess was wrong.
