@@ -1,15 +1,16 @@
 General review:
 - If you aren't already, it might be time to learn a full IDE (I shill for :shill2: and PyCharm).  There are a number of PEP-8 style violations, for instance, that an IDE would warn you about.
+
 - get_random_word
 - - pass does nothing.  It's commonly used as a placeholder before you finish implementing.  Delete.
 - - random.randint(0, len(lst) - 1) - use random.choice instead.
 - Top-level variables (more specifically mutable globals) are to be discouraged.  The variables in lines 13-18 should be scoped to a function.  Execute your code as a script by calling that function, for preference behind a if __name__ == "__main__" guard.
+
 - hangman_status, as something that shouldn't be changed, should be named HANGMAN_STATUS by convention.  It also has a trailing \n in the last element that none of the others seem to have.
 - Something I didn't noticed, but PyCharm did: your \ in your handman strings are being parsed as escape characters.  \| and \  can't be read the way, say, \n is.
 - player_guess
 - - input takes a prompt as input.  Use that over explicitly printing.
 - - string.ascii_lowercase is a convenience constant for "abcdefghi..."
-- My lunch is ready, so I'm going to call it here, but might circle back in an hour or three.
 
 Continued review:
 - game_display
